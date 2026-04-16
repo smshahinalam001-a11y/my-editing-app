@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # ভিডিও সেভ করার জন্য ফোল্ডার
-UPLOAD_FOLDER = 'static/downloads'
+UPLOAD_FOLDER = 'static'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -20,31 +20,20 @@ def process():
     video_url = data.get('url')
     
     try:
-        # ১. ভিডিও ডাউনলোড করার সেটআপ
-        ydl_opts = {
-            'format': 'best',
-            'outtmpl': f'{UPLOAD_FOLDER}/video.mp4',
-        }
-        
+        # ভিডিও ডাউনলোডের অপশন
+        ydl_opts = {'format': 'best', 'outtmpl': 'static/input.mp4'}
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([video_url])
         
-        # ২. ভিডিও এডিটিং (MoviePy দিয়ে লোগো ও নাম বসানো)
-        clip = VideoFileClip(f"{UPLOAD_FOLDER}/video.mp4")
+        # ভিডিও এডিটিং (লোগো বসানো)
+        clip = VideoFileClip("static/input.mp4")
+        txt = TextClip("DIGITAL XPRES PRO", fontsize=50, color='white', font='Arial-Bold')
+        txt = txt.set_pos(('right', 'top')).set_duration(clip.duration)
         
-        # আপনার চ্যানেলের নাম টেক্সট হিসেবে যোগ করা
-        txt_clip = TextClip("DIGITAL XPRES PRO", fontsize=30, color='white', font='Arial-Bold')
-        txt_clip = txt_clip.set_pos(('right', 'top')).set_duration(clip.duration)
+        final = CompositeVideoClip([clip, txt])
+        final.write_videofile("static/output.mp4", codec="libx264")
         
-        # ভিডিও এবং টেক্সট লেয়ার একসাথে করা
-        final_video = CompositeVideoClip([clip, txt_clip])
-        final_video.write_videofile(f"{UPLOAD_FOLDER}/final_edited.mp4", codec="libx264")
-        
-        return jsonify({
-            "status": "success", 
-            "message": "এডিটিং সম্পন্ন হয়েছে! ওয়াটারমার্ক রিমুভ করে আপনার চ্যানেলের নাম বসানো হয়েছে।"
-        })
-        
+        return jsonify({"status": "success", "message": "এডিটিং সম্পন্ন! এখন আউটপুট রেডি।"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
