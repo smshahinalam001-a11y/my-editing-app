@@ -1,7 +1,5 @@
 Flask
 gunicorn
 yt-dlp
-moviepy==1.0.3
-numpy==1.26.4
+moviepy
 opencv-python-headless
-ffmpeg-python
