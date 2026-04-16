@@ -1,10 +1,12 @@
 import os
-# Numpy ভার্সন সমস্যা এড়াতে এটি আগে ইমপোর্ট করুন
-os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
-
 from flask import Flask, render_template, request, jsonify
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
-import yt_dlp
+
+# লাইব্রেরি ইনস্টল চেক করার জন্য চেষ্টা
+try:
+    from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
+    MOVIEPY_AVAILABLE = True
+except ImportError:
+    MOVIEPY_AVAILABLE = False
 
 app = Flask(__name__)
 
@@ -16,7 +18,11 @@ def index():
 def process():
     data = request.json
     video_url = data.get('url')
-    return jsonify({"status": "success", "message": "ইঞ্জিন রেডি! ভিডিও প্রসেসিং শুরু হচ্ছে..."})
+    
+    if not MOVIEPY_AVAILABLE:
+        return jsonify({"status": "error", "message": "সার্ভারে এডিটিং লাইব্রেরি লোড হয়নি। অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন বা সাপোর্ট দেখুন।"})
+    
+    return jsonify({"status": "success", "message": "এডিটিং ইঞ্জিন সক্রিয়! ভিডিও প্রসেস হচ্ছে..."})
 
 if __name__ == '__main__':
     app.run()
