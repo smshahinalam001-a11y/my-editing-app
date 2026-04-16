@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIGITAL XPRES PRO - AI Editor</title>
-    <style>
-        body { background-color: #0f0f0f; color: #ffffff; font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #1a1a1a; padding: 30px; border-radius: 20px; width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
-        input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #ff3e3e; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #e03030; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h1>DIGITAL XPRES PRO</h1>
-        <p>ভিডিও লিঙ্ক বা ফাইল আপলোড করুন</p>
-        <input type="text" id="videoUrl" placeholder="এখানে ইউটিউব লিঙ্ক পেস্ট করুন...">
-        <button onclick="processVideo()">এডিটিং শুরু করুন</button>
-    </div>
-    <script>
-        async function processVideo() {
-            const url = document.getElementById('videoUrl').value;
-            alert("এডিটিং ইঞ্জিন কানেক্ট করা হচ্ছে...");
-            const res = await fetch('/process', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({url: url}) });
-            const data = await res.json();
-            alert(data.message);
-        }
-    </script>
-</body>
-</html>
+Flask==3.0.0
+gunicorn==21.2.0
+yt-dlp==2023.11.16
+moviepy==1.0.3
+opencv-python-headless==4.8.1.78
