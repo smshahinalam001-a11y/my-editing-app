@@ -1,4 +1,5 @@
 Flask
 moviepy
 gunicorn
+pydub
 numpy
