@@ -1,5 +1,4 @@
 Flask
-gunicorn
-yt-dlp
 moviepy
-opencv-python-headless
+gunicorn
+numpy
