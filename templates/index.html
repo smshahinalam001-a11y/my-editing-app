@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>AI MASTER PRO</title>
-    <style>
-        body { background: #121212; color: #fff; text-align: center; padding: 50px; font-family: sans-serif; }
-        input { padding: 15px; width: 80%; border-radius: 10px; }
-        button { padding: 15px 30px; background: #00ff88; border: none; border-radius: 10px; cursor: pointer; }
-    </style>
-</head>
 <body>
-    <h1>AI MASTER PRO</h1>
-    <input type="text" id="url" placeholder="ভিডিও লিঙ্ক দিন...">
-    <br><br>
-    <button onclick="startEdit()">এডিটিং শুরু করুন</button>
-    <script>
-        async function startEdit() {
-            alert("এডিটিং শুরু হয়েছে, কিছুক্ষণ অপেক্ষা করুন...");
-            const url = document.getElementById('url').value;
-            const res = await fetch('/process', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({url: url}) });
-            const data = await res.json();
-            alert(data.message);
-        }
-    </script>
+    <h2>Digital Xpres Pro - AI Editor</h2>
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept="video/*">
+        <button type="submit">এডিট শুরু করুন</button>
+    </form>
 </body>
 </html>
